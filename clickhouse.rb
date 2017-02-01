@@ -7,24 +7,21 @@ class Clickhouse < Formula
   head "https://github.com/yandex/ClickHouse.git"
 
   devel do
-    url "https://github.com/yandex/ClickHouse/archive/v1.1.54078-testing.tar.gz"
-    version "1.1.54078"
-    sha256 "3fdb1b7b2e5b51700777d116fad753e3f3371b981e2d35c9cea5c39845b40ad1"
+    url "https://github.com/yandex/ClickHouse/archive/v1.1.4-testing.zip"
+    version "1.1.4"
+    sha256 "dbe635cb4270b39e816149117587f6bfb18e9ac4032782fadee3390ab92ff27f"
   end
+
+  head "https://github.com/yandex/ClickHouse.git"
 
   depends_on "cmake" => :build
   depends_on "gcc" => :build
 
-  # We have to force some env vars here to force boost to be built from source
   ENV["HOMEBREW_CC"] = "gcc-6"
   ENV["HOMEBREW_LD"] = "gcc-6"
   ENV["HOMEBREW_CXX"] = "g++-6"
-  ENV["HOMEBREW_BUILD_FROM_SOURCE"] = "1"
 
   depends_on "boost" => :build
-
-  ENV["HOMEBREW_BUILD_FROM_SOURCE"] = "0"
-
   depends_on "icu4c" => :build
   depends_on "mysql" => :build
   depends_on "openssl" => :build
@@ -32,17 +29,16 @@ class Clickhouse < Formula
   depends_on "glib" => :build
   depends_on "libtool" => :build
   depends_on "gettext" => :build
+  depends_on "homebrew/dupes/libiconv" => :build
+  depends_on "homebrew/dupes/zlib" => :build
   depends_on "readline" => :recommended
 
   def install
-    ENV["DISABLE_MONGODB"] = "1"
-
-    # Hardcode the version assignment since there's no git repository
-    inreplace "libs/libcommon/src/get_revision_lib.sh", /git.*\n.*/, "echo " + version.to_s[-5..-1]
+    ENV["ENABLE_MONGODB"] = "0"
 
     mkdir "build"
     cd "build" do
-      system "cmake", ".."
+      system "cmake", "..", "-DUSE_STATIC_LIBRARIES=0"
       system "make"
       bin.install "#{buildpath}/build/dbms/src/Server/clickhouse" => "clickhouse-server"
       bin.install_symlink "clickhouse-server" => "clickhouse-client"
@@ -51,7 +47,7 @@ class Clickhouse < Formula
     mkdir "#{var}/clickhouse"
 
     inreplace "#{buildpath}/dbms/src/Server/config.xml" do |s|
-      s.gsub! "/opt/clickhouse/", "#{var}/clickhouse/"
+      s.gsub! "/var/lib/clickhouse/", "#{var}/clickhouse/"
       s.gsub! "<!-- <max_open_files>262144</max_open_files> -->", "<max_open_files>262144</max_open_files>"
     end
 
@@ -79,6 +75,6 @@ class Clickhouse < Formula
   end
 
   test do
-    system "#{bin}/clickhouse-client", "--help"
+    system "#{bin}/clickhouse-client", "--version"
   end
 end

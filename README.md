@@ -6,5 +6,5 @@ This is an unofficial Homebrew repository for the Yandex's [ClickHouse](https://
 
 ```
 brew tap hatarist/clickhouse
-brew install clickhouse
+brew install clickhouse --devel --verbose
 ```
