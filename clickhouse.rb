@@ -1,9 +1,9 @@
 class Clickhouse < Formula
   desc "is an open-source column-oriented database management system."
   homepage "https://clickhouse.yandex/"
-  url "https://github.com/yandex/ClickHouse/archive/v1.1.54074-stable.tar.gz"
-  version "1.1.54074"
-  sha256 "5e1d0b825828381c5c081d2af3da73eb35ea2a986b4df606b0990e57e96ddc28"
+  url "https://github.com/yandex/ClickHouse/archive/v1.1.54144-stable.zip"
+  version "1.1.54144"
+  sha256 "e9f26c17f7e3a08e506ee4e97da3a097b9aedc4d14decb24345b4766021f1602"
   head "https://github.com/yandex/ClickHouse.git"
 
   devel do
