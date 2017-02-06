@@ -7,9 +7,9 @@ class Clickhouse < Formula
   head "https://github.com/yandex/ClickHouse.git"
 
   devel do
-    url "https://github.com/yandex/ClickHouse/archive/v1.1.4-testing.zip"
-    version "1.1.4"
-    sha256 "dbe635cb4270b39e816149117587f6bfb18e9ac4032782fadee3390ab92ff27f"
+    url "https://github.com/yandex/ClickHouse/archive/v1.1.54159-testing.zip"
+    version "1.1.54159"
+    sha256 "25a155c98c32e305cac164ae05088da0ca17294b41e4f3561fe0c3d4e65fd325"
   end
 
   head "https://github.com/yandex/ClickHouse.git"
@@ -47,8 +47,13 @@ class Clickhouse < Formula
     mkdir "#{var}/clickhouse"
 
     inreplace "#{buildpath}/dbms/src/Server/config.xml" do |s|
-      s.gsub! "/opt/clickhouse/", "#{var}/clickhouse/"
-      # s.gsub! "/var/lib/clickhouse/", "#{var}/clickhouse/"
+      stable do
+        s.gsub! "/opt/clickhouse/", "#{var}/clickhouse/"
+      end
+      devel do
+        s.gsub! "/var/lib/clickhouse/", "#{var}/clickhouse/"
+      end
+      
       s.gsub! "<!-- <max_open_files>262144</max_open_files> -->", "<max_open_files>262144</max_open_files>"
     end
 
@@ -61,6 +66,30 @@ class Clickhouse < Formula
     (etc/"clickhouse-client").install "#{buildpath}/dbms/src/Client/config.xml"
     (etc/"clickhouse-server").install "#{buildpath}/dbms/src/Server/config.xml"
     (etc/"clickhouse-server").install "#{buildpath}/dbms/src/Server/users.xml"
+  end
+
+  def plist; <<-EOS.undent
+    <?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+    <plist version="1.0">
+      <dict>
+        <key>Label</key>
+        <string>#{plist_name}</string>
+        <key>RunAtLoad</key>
+        <true/>
+        <key>KeepAlive</key>
+        <false/>
+        <key>ProgramArguments</key>
+        <array>
+            <string>#{opt_bin}/clickhouse-server</string>
+            <string>--config-file</string>
+            <string>#{etc}/clickhouse-server/config.xml</string>
+        </array>
+        <key>WorkingDirectory</key>
+        <string>#{HOMEBREW_PREFIX}</string>
+      </dict>
+    </plist>
+    EOS
   end
 
   def caveats; <<-EOS.undent
