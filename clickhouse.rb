@@ -1,17 +1,16 @@
 class Clickhouse < Formula
   desc "is an open-source column-oriented database management system."
   homepage "https://clickhouse.yandex/"
-  url "https://github.com/yandex/ClickHouse/archive/v1.1.54144-stable.zip"
-  version "1.1.54144"
-  sha256 "e9f26c17f7e3a08e506ee4e97da3a097b9aedc4d14decb24345b4766021f1602"
-  head "https://github.com/yandex/ClickHouse.git"
+  url "https://github.com/yandex/ClickHouse/archive/v1.1.54159-stable.zip"
+  version "1.1.54159"
+  sha256 "21da277ad5bb14dfeaea8dba57dce9225c24e432d219e4f344fdf15c99bc1eb8"
 
   devel do
     url "https://github.com/yandex/ClickHouse/archive/v1.1.54159-testing.zip"
     version "1.1.54159"
     sha256 "25a155c98c32e305cac164ae05088da0ca17294b41e4f3561fe0c3d4e65fd325"
   end
-
+  
   head "https://github.com/yandex/ClickHouse.git"
 
   depends_on "cmake" => :build
