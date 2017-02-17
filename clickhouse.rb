@@ -1,14 +1,14 @@
 class Clickhouse < Formula
   desc "is an open-source column-oriented database management system."
   homepage "https://clickhouse.yandex/"
-  url "https://github.com/yandex/ClickHouse/archive/v1.1.54159-stable.zip"
-  version "1.1.54159"
-  sha256 "21da277ad5bb14dfeaea8dba57dce9225c24e432d219e4f344fdf15c99bc1eb8"
+  url "https://github.com/yandex/ClickHouse/archive/v1.1.54165-stable.zip"
+  version "1.1.54165"
+  sha256 "b679b53e0a60609291c1d1aa7f04dc8dd0d85af432a58d9635d032fdd31e6051"
 
   devel do
-    url "https://github.com/yandex/ClickHouse/archive/v1.1.54159-testing.zip"
-    version "1.1.54159"
-    sha256 "25a155c98c32e305cac164ae05088da0ca17294b41e4f3561fe0c3d4e65fd325"
+    url "https://github.com/yandex/ClickHouse/archive/v1.1.54167-testing.zip"
+    version "1.1.54167"
+    sha256 "7f735821caa91d790f88346772ce347c1ceb523651862be975448f7e7a5d2eca"
   end
   
   head "https://github.com/yandex/ClickHouse.git"
@@ -25,7 +25,6 @@ class Clickhouse < Formula
   depends_on "mysql" => :build
   depends_on "openssl" => :build
   depends_on "unixodbc" => :build
-  depends_on "glib" => :build
   depends_on "libtool" => :build
   depends_on "gettext" => :build
   depends_on "homebrew/dupes/libiconv" => :build
@@ -38,7 +37,9 @@ class Clickhouse < Formula
     mkdir "build"
     cd "build" do
       system "cmake", "..", "-DUSE_STATIC_LIBRARIES=0"
-      system "make"
+      system "make -j 5"
+      lib.install Dir["#{buildpath}/build/dbms/*.dylib"]
+      lib.install Dir["#{buildpath}/build/contrib/libzlib-ng/*.dylib"]
       bin.install "#{buildpath}/build/dbms/src/Server/clickhouse" => "clickhouse-server"
       bin.install_symlink "clickhouse-server" => "clickhouse-client"
     end
