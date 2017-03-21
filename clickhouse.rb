@@ -48,6 +48,7 @@ class Clickhouse < Formula
 
     inreplace "#{buildpath}/dbms/src/Server/config.xml" do |s|
       s.gsub! "/var/lib/clickhouse/", "#{var}/clickhouse/"
+      s.gsub! "/var/log/clickhouse-server/", "#{var}/log/clickhouse/"
       s.gsub! "<!-- <max_open_files>262144</max_open_files> -->", "<max_open_files>262144</max_open_files>"
     end
 
