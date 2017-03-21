@@ -1,9 +1,9 @@
 class Clickhouse < Formula
   desc "is an open-source column-oriented database management system."
   homepage "https://clickhouse.yandex/"
-  url "https://github.com/yandex/ClickHouse/archive/v1.1.54165-stable.zip"
-  version "1.1.54165"
-  sha256 "b679b53e0a60609291c1d1aa7f04dc8dd0d85af432a58d9635d032fdd31e6051"
+  url "https://github.com/yandex/ClickHouse/archive/v1.1.54188-stable.zip"
+  version "1.1.54188"
+  sha256 "53872450807ad357aa4bc7a529e48eef3e3ae152097120bd3edcfe51a6661a83"
 
   devel do
     url "https://github.com/yandex/ClickHouse/archive/v1.1.54167-testing.zip"
@@ -37,7 +37,7 @@ class Clickhouse < Formula
     mkdir "build"
     cd "build" do
       system "cmake", "..", "-DUSE_STATIC_LIBRARIES=0"
-      system "make -j 5"
+      system "make"
       lib.install Dir["#{buildpath}/build/dbms/*.dylib"]
       lib.install Dir["#{buildpath}/build/contrib/libzlib-ng/*.dylib"]
       bin.install "#{buildpath}/build/dbms/src/Server/clickhouse" => "clickhouse-server"
@@ -47,13 +47,7 @@ class Clickhouse < Formula
     mkdir "#{var}/clickhouse"
 
     inreplace "#{buildpath}/dbms/src/Server/config.xml" do |s|
-      stable do
-        s.gsub! "/opt/clickhouse/", "#{var}/clickhouse/"
-      end
-      devel do
-        s.gsub! "/var/lib/clickhouse/", "#{var}/clickhouse/"
-      end
-      
+      s.gsub! "/var/lib/clickhouse/", "#{var}/clickhouse/"
       s.gsub! "<!-- <max_open_files>262144</max_open_files> -->", "<max_open_files>262144</max_open_files>"
     end
 
