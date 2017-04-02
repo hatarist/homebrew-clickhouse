@@ -1,24 +1,20 @@
 class Clickhouse < Formula
   desc "is an open-source column-oriented database management system."
   homepage "https://clickhouse.yandex/"
-  url "https://github.com/yandex/ClickHouse/archive/v1.1.54188-stable.zip"
-  version "1.1.54188"
-  sha256 "53872450807ad357aa4bc7a529e48eef3e3ae152097120bd3edcfe51a6661a83"
+  url "https://github.com/yandex/ClickHouse/archive/v1.1.54198-stable.zip"
+  version "1.1.54198"
+  sha256 "3e576c50e6f61c0f710b4e5b1ee19535c8196a3dde44fd028c49d863b09ea41e"
 
   devel do
-    url "https://github.com/yandex/ClickHouse/archive/v1.1.54167-testing.zip"
-    version "1.1.54167"
-    sha256 "7f735821caa91d790f88346772ce347c1ceb523651862be975448f7e7a5d2eca"
+    url "https://github.com/yandex/ClickHouse/archive/v1.1.54207-testing.zip"
+    version "1.1.54207"
+    sha256 ""
   end
   
   head "https://github.com/yandex/ClickHouse.git"
 
   depends_on "cmake" => :build
   depends_on "gcc" => :build
-
-  ENV["HOMEBREW_CC"] = "gcc-6"
-  ENV["HOMEBREW_LD"] = "gcc-6"
-  ENV["HOMEBREW_CXX"] = "g++-6"
 
   depends_on "boost" => :build
   depends_on "icu4c" => :build
@@ -27,21 +23,21 @@ class Clickhouse < Formula
   depends_on "unixodbc" => :build
   depends_on "libtool" => :build
   depends_on "gettext" => :build
-  depends_on "homebrew/dupes/libiconv" => :build
   depends_on "homebrew/dupes/zlib" => :build
   depends_on "readline" => :recommended
 
   def install
     ENV["ENABLE_MONGODB"] = "0"
+    ENV["CC"] = "#{Formula["gcc"].bin}/gcc-6"
+    ENV["CXX"] = "#{Formula["gcc"].bin}/g++-6"
 
     mkdir "build"
     cd "build" do
-      system "cmake", "..", "-DUSE_STATIC_LIBRARIES=0"
+      system "cmake", ".."
       system "make"
-      lib.install Dir["#{buildpath}/build/dbms/*.dylib"]
-      lib.install Dir["#{buildpath}/build/contrib/libzlib-ng/*.dylib"]
-      bin.install "#{buildpath}/build/dbms/src/Server/clickhouse" => "clickhouse-server"
-      bin.install_symlink "clickhouse-server" => "clickhouse-client"
+      bin.install "#{buildpath}/build/dbms/src/Server/clickhouse"
+      bin.install_symlink "clickhouse" => "clickhouse-server"
+      bin.install_symlink "clickhouse" => "clickhouse-client"
     end
 
     mkdir "#{var}/clickhouse"
