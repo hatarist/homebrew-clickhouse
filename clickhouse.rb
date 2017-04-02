@@ -10,6 +10,11 @@ class Clickhouse < Formula
     version "1.1.54207"
     sha256 ""
   end
+
+  bottle do
+    root_url 'https://github.com/hatarist/homebrew-clickhouse/releases/download/bottle'
+    sha256 "4a9539797fbedc28412f7bc0bdd1096e3da9eb9109448abe45319091ef99aa94" => :el_capitan
+  end
   
   head "https://github.com/yandex/ClickHouse.git"
 
