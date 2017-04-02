@@ -2,10 +2,13 @@
 
 This is an unofficial Homebrew repository for the Yandex's [ClickHouse](https://clickhouse.yandex/) DBMS.
 
-## Install
+It is relatively new and isn't tested well.  
+Please consider appending the `--verbose` and `--debug` parameters to the `brew install` command to make it easier to debug the package installation.  
+If you are having any problems with the precompiled binaries (bottles), append the `--build-from-source` parameter.
 
-This Homebrew Formula is relatevily new and isn't tested well.  
-Please consider appending the `--verbose --debug` parameters to the `brew install` command to make it easier to debug the package installation.
+Issues and pull requests are always welcome!
+
+## Usage
 
 Add this repository:
 ```
@@ -23,11 +26,10 @@ Or, to install the `testing` release, run:
 brew install clickhouse --devel
 ```
 
-## Run
+## Run the server
 
 Make sure that you've increased the maxfiles parameter as described in [here](https://github.com/yandex/ClickHouse/blob/master/MacOS.md).  
-Then:
+Then, to run the server, run:
 ```
 brew services start clickhouse
 ```
-
