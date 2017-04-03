@@ -8,7 +8,7 @@ class Clickhouse < Formula
   devel do
     url "https://github.com/yandex/ClickHouse/archive/v1.1.54207-testing.zip"
     version "1.1.54207"
-    sha256 ""
+    sha256 "0c9bf801b2cca8d335693f3b8ffadefd2cae0ac49422698f098a10658f45e55b"
   end
 
   bottle do
@@ -36,9 +36,12 @@ class Clickhouse < Formula
     ENV["CC"] = "#{Formula["gcc"].bin}/gcc-6"
     ENV["CXX"] = "#{Formula["gcc"].bin}/g++-6"
 
+    cmake_args = %w[]
+    cmake_args << "-DUSE_STATIC_LIBRARIES=0" if MacOS.version >= :sierra
+
     mkdir "build"
     cd "build" do
-      system "cmake", ".."
+      system "cmake", "..", *cmake_args
       system "make"
       bin.install "#{buildpath}/build/dbms/src/Server/clickhouse"
       bin.install_symlink "clickhouse" => "clickhouse-server"
