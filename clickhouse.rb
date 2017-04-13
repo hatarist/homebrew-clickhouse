@@ -6,9 +6,9 @@ class Clickhouse < Formula
   sha256 "3e576c50e6f61c0f710b4e5b1ee19535c8196a3dde44fd028c49d863b09ea41e"
 
   devel do
-    url "https://github.com/yandex/ClickHouse/archive/v1.1.54207-testing.zip"
-    version "1.1.54207"
-    sha256 "0c9bf801b2cca8d335693f3b8ffadefd2cae0ac49422698f098a10658f45e55b"
+    url "https://github.com/yandex/ClickHouse/archive/v1.1.54214-testing.zip"
+    version "1.1.54214"
+    sha256 "0251e549a35621cfea56bf317984c8bbf917b0c0c9ff8681550643df1180a4a0"
   end
 
   bottle do
@@ -28,7 +28,7 @@ class Clickhouse < Formula
   depends_on "unixodbc" => :build
   depends_on "libtool" => :build
   depends_on "gettext" => :build
-  depends_on "homebrew/dupes/zlib" => :build
+  depends_on "zlib" => :build
   depends_on "readline" => :recommended
 
   def install
