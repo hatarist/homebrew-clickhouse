@@ -43,6 +43,10 @@ class Clickhouse < Formula
     cd "build" do
       system "cmake", "..", *cmake_args
       system "make"
+      if MacOS.version >= :sierra
+        lib.install Dir["#{buildpath}/build/dbms/*.dylib"]
+        lib.install Dir["#{buildpath}/build/contrib/libzlib-ng/*.dylib"]
+      end
       bin.install "#{buildpath}/build/dbms/src/Server/clickhouse"
       bin.install_symlink "clickhouse" => "clickhouse-server"
       bin.install_symlink "clickhouse" => "clickhouse-client"
