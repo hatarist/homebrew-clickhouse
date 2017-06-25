@@ -33,8 +33,8 @@ class Clickhouse < Formula
 
   def install
     ENV["ENABLE_MONGODB"] = "0"
-    ENV["CC"] = "#{Formula["gcc"].bin}/gcc-6"
-    ENV["CXX"] = "#{Formula["gcc"].bin}/g++-6"
+    ENV["CC"] = "#{Formula["gcc"].bin}/gcc-7"
+    ENV["CXX"] = "#{Formula["gcc"].bin}/g++-7"
 
     cmake_args = %w[]
     cmake_args << "-DUSE_STATIC_LIBRARIES=0" if MacOS.version >= :sierra
