@@ -19,7 +19,7 @@ class Clickhouse < Formula
   head "https://github.com/yandex/ClickHouse.git"
 
   depends_on "cmake" => :build
-  depends_on "gcc" => :build
+  depends_on "gcc6" => :build
 
   depends_on "boost" => :build
   depends_on "icu4c" => :build
@@ -33,8 +33,8 @@ class Clickhouse < Formula
 
   def install
     ENV["ENABLE_MONGODB"] = "0"
-    ENV["CC"] = "#{Formula["gcc"].bin}/gcc-7"
-    ENV["CXX"] = "#{Formula["gcc"].bin}/g++-7"
+    ENV["CC"] = "#{Formula["gcc6"].bin}/gcc-6"
+    ENV["CXX"] = "#{Formula["gcc6"].bin}/g++-6"
 
     cmake_args = %w[]
     cmake_args << "-DUSE_STATIC_LIBRARIES=0" if MacOS.version >= :sierra
