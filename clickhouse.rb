@@ -1,14 +1,14 @@
 class Clickhouse < Formula
   desc "is an open-source column-oriented database management system."
   homepage "https://clickhouse.yandex/"
-  url "https://github.com/yandex/ClickHouse/archive/v1.1.54198-stable.zip"
-  version "1.1.54198"
-  sha256 "3e576c50e6f61c0f710b4e5b1ee19535c8196a3dde44fd028c49d863b09ea41e"
+  url "https://github.com/yandex/ClickHouse/archive/v1.1.54292-stable.zip"
+  version "1.1.54292"
+  sha256 ""
 
   devel do
-    url "https://github.com/yandex/ClickHouse/archive/v1.1.54214-testing.zip"
-    version "1.1.54214"
-    sha256 "0251e549a35621cfea56bf317984c8bbf917b0c0c9ff8681550643df1180a4a0"
+    url "https://github.com/yandex/ClickHouse/archive/v1.1.54304-testing.zip"
+    version "1.1.54304"
+    sha256 "ea94e6f24154ed0cd6aed2f7beaa0a38d81a682fb59ae15e47a019008e4d41da"
   end
 
   bottle do
@@ -61,14 +61,12 @@ class Clickhouse < Formula
     end
 
     # Copy configuration files
-    mkdir "#{etc}/clickhouse-client/"
-    mkdir "#{etc}/clickhouse-server/"
-    mkdir "#{etc}/clickhouse-server/config.d/"
-    mkdir "#{etc}/clickhouse-server/users.d/"
+    mkdir "#{etc}/clickhouse/"
+    mkdir "#{etc}/clickhouse/config.d/"
+    mkdir "#{etc}/clickhouse/users.d/"
 
-    (etc/"clickhouse-client").install "#{buildpath}/dbms/src/Client/config.xml"
-    (etc/"clickhouse-server").install "#{buildpath}/dbms/src/Server/config.xml"
-    (etc/"clickhouse-server").install "#{buildpath}/dbms/src/Server/users.xml"
+    (etc/"clickhouse").install "#{buildpath}/dbms/src/Server/config.xml"
+    (etc/"clickhouse").install "#{buildpath}/dbms/src/Server/users.xml"
   end
 
   def plist; <<-EOS.undent
@@ -86,7 +84,7 @@ class Clickhouse < Formula
         <array>
             <string>#{opt_bin}/clickhouse-server</string>
             <string>--config-file</string>
-            <string>#{etc}/clickhouse-server/config.xml</string>
+            <string>#{etc}/clickhouse/config.xml</string>
         </array>
         <key>WorkingDirectory</key>
         <string>#{HOMEBREW_PREFIX}</string>
@@ -97,8 +95,7 @@ class Clickhouse < Formula
 
   def caveats; <<-EOS.undent
     The configuration files are available at:
-      #{etc}/clickhouse-client/
-      #{etc}/clickhouse-server/
+      #{etc}/clickhouse/
     The database itself will store data at:
       #{var}/clickhouse/
 
