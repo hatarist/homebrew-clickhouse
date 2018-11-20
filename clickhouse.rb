@@ -19,11 +19,11 @@ class Clickhouse < Formula
   head "https://github.com/yandex/ClickHouse.git"
 
   depends_on "cmake" => :build
-  depends_on "gcc6" => :build
+  depends_on "gcc@7" => :build
 
   depends_on "boost" => :build
   depends_on "icu4c" => :build
-  depends_on "mysql" => :build
+  depends_on "mysql@5.7" => :build
   depends_on "openssl" => :build
   depends_on "unixodbc" => :build
   depends_on "libtool" => :build
@@ -33,8 +33,11 @@ class Clickhouse < Formula
 
   def install
     ENV["ENABLE_MONGODB"] = "0"
-    ENV["CC"] = "#{Formula["gcc6"].bin}/gcc-6"
-    ENV["CXX"] = "#{Formula["gcc6"].bin}/g++-6"
+    ENV["CC"] = "#{Formula["gcc@7"].bin}/gcc-7"
+    ENV["CXX"] = "#{Formula["gcc@7"].bin}/g++-7"
+    
+    inreplace "libs/libmysqlxx/cmake/find_mysqlclient.cmake", "/usr/local/opt/mysql/lib", "/usr/local/opt/mysql@5.7/lib"
+    inreplace "libs/libmysqlxx/cmake/find_mysqlclient.cmake", "/usr/local/opt/mysql/include", "/usr/local/opt/mysql@5.7/include"
 
     cmake_args = %w[]
     cmake_args << "-DUSE_STATIC_LIBRARIES=0" if MacOS.version >= :sierra
